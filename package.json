@@ -4,7 +4,8 @@
   "description": "Test task for Touch Instinct",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --open --config ./build/webpack.dev.config.js",
+    "build": "webpack --progress --config ./build/webpack.prod.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mikhail Semochkin",
@@ -20,7 +21,9 @@
     "path": "^0.12.7",
     "react": "^16.1.0",
     "react-dom": "^16.1.0",
+    "uglifyjs-webpack-plugin": "^1.0.1",
     "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.4"
+    "webpack-dev-server": "^2.9.4",
+    "webpack-merge": "^4.1.1"
   }
 }
