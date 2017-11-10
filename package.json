@@ -1,0 +1,11 @@
+{
+  "name": "file-uploader",
+  "version": "1.0.0",
+  "description": "Test task for Touch Instinct",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mikhail Semochkin",
+  "license": "MIT"
+}
