@@ -1,6 +1,6 @@
 const pg = require('pg')
 const chalk = require('chalk')
-const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/files'
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:pgpass@localhost:5432/files'
 const datetime = require('../utils/datetime')
 
 const files = {}
