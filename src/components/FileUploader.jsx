@@ -1,4 +1,5 @@
 import React from 'react'
+import $ from 'jquery'
 import '../styles/FileUploader.scss'
 
 export default class FileUploader extends React.Component {
@@ -35,9 +36,29 @@ export default class FileUploader extends React.Component {
     }
   }
 
-  sendFileToServer (file) {
+  sendFileToServer () {
+    const file = this.state.file;
+    if (!file) {
+      console.log('Error in sendFileToServer(): no file selected')
+      console.log('Upload aborted')
+      return
+    }
+    const filename = this.state.filename || 'Unknown'
+    const formData = new FormData()
+    formData.append('file', file, filename)
     return new Promise((resolve, reject) => {
-      setTimeout(() => { resolve() }, 2000)
+      $.ajax({
+        url: '/',
+        method: 'post',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: () => resolve(),
+        error: (err) => {
+          console.log('Error in sendFileToServer(): ', err)
+          reject(err)
+        }
+      })
     })
   }
 

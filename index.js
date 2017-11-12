@@ -1,16 +1,23 @@
 const express = require('express')
 const path = require('path')
+const bodyParser = require('body-parser')
 const multer = require('multer')
 const md5File = require('md5-file')
 const chalk = require('chalk')
+const morgan = require('morgan')
 
 const app = express()
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({ dest: 'uploads' })
 
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 9000
 
-app.use('/', express.static(path.resolve(__dirname, '/dist')))
-app.use('/uploads', express.static(path.resolve(__dirname, '/uploads')))
+app.use('/', express.static('dist'))
+app.use('/static', express.static('static'))
+app.use('/uploads', express.static('uploads'))
+app.use(morgan('dev')) // log requests to the console
+// configure body parser
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 const router = express.Router()
 
@@ -21,7 +28,7 @@ router.route('/')
   })
 
   .post(
-    upload.array('fileField', 1),
+    upload.array('file', 1),
     // req.files is array of files
     // req.files[i] looks like:
     /*
@@ -37,7 +44,7 @@ router.route('/')
       }
     */
     (req, res) => {
-      console.log(req.files[0])
+      console.log(req.files, req.body)
     }
   )
 
