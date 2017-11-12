@@ -1,4 +1,5 @@
 import React from 'react'
+import '../styles/FileUploader.scss'
 
 export default class FileUploader extends React.Component {
 
@@ -94,7 +95,7 @@ export default class FileUploader extends React.Component {
     }
 
     return (
-      <div>
+      <div id="uploader">
         {uploader}
       </div>
     )
