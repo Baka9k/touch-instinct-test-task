@@ -58,7 +58,7 @@ export default class FileUploader extends React.Component {
         setTimeout(() => {
           this.resetFileInformation()
           this.setUploaderState('pending')
-        }, 3000)
+        }, 2500)
       })
   }
 
@@ -92,7 +92,8 @@ export default class FileUploader extends React.Component {
       case 'uploading':
         uploader = (
           <div>
-            Uploading
+            Подождите, идет загрузка...
+            <div className="spinner" />
           </div>
         )
         break
