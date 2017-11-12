@@ -8,6 +8,7 @@ export default class FileUploader extends React.Component {
     this.state = {
       file: null,
       filetype: null,
+      filename: null,
       uploaderState: 'pending'
     }
   }
@@ -15,7 +16,8 @@ export default class FileUploader extends React.Component {
   handleChange (e) {
     this.setState({
       file: e.target.files[0],
-      filetype: e.target.files[0].type || 'Неизвестен'
+      filetype: e.target.files[0].type || 'Неизвестен',
+      filename: e.target.files[0].name || 'Неизвестно'
     })
   }
 
@@ -42,7 +44,8 @@ export default class FileUploader extends React.Component {
   resetFileInformation () {
     this.setState({
       file: null,
-      filetype: null
+      filetype: null,
+      filename: null
     })
   }
 
@@ -68,12 +71,19 @@ export default class FileUploader extends React.Component {
         uploader = (
           <div>
             <form>
+              {!this.state.file &&
+                <label for="fileInput">Выбрать файл</label>
+              }
+              {this.state.file &&
+                <label for="fileInput" className='selected'>Файл выбран!</label>
+              }
               <input type="file" id="fileInput" onChange={(e) => this.handleChange(e)} />
             </form>
             {this.state.filetype &&
-            <div>
-              <div className='filetype'>Тип: {this.state.filetype}</div>
-              <input type="submit" value="Submit" onClick={(e) => this.handleSubmitClick(e)} />
+            <div className='after-file-select'>
+              <div className='filename'><b>Имя файла: </b>{this.state.filename}</div>
+              <div className='filetype'><b>Тип файла: </b>{this.state.filetype}</div>
+              <input type="submit" value="Загрузить" id="submitFile" onClick={(e) => this.handleSubmitClick(e)} />
             </div>
             }
           </div>
