@@ -5,12 +5,16 @@ const md5File = require('md5-file')
 const chalk = require('chalk')
 const fs = require('fs')
 const morgan = require('morgan')
+const pg = require('pg')
 
-const app = express()
 const upload = multer({ dest: 'uploads' })
-
 const port = process.env.PORT || 9000
 
+// configure DB
+const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/files'
+
+// configure app
+const app = express()
 app.use('/', express.static('dist'))
 app.use('/static', express.static('static'))
 app.use('/uploads', express.static('uploads'))
@@ -18,9 +22,9 @@ app.use(morgan('dev')) // log requests to the console
 
 // ====== DB ======
 
-const addFileToDB = function (originalname, name, hash, size, mimetype) {
+const addFileToDB = function (originalname, name, extension, hash, size, mimetype) {
   return new Promise((resolve, reject) => {
-    
+
   })
 }
 
@@ -51,19 +55,25 @@ router.route('/')
       }
     */
     (req, res) => {
-      // console.log(req.files)
+
       const file = req.files[0]
       if (!file) {
         console.log(chalk.red('Error in POST /: cannot find file in req.files'))
         return
       }
-      let extension = file.originalname.match(/\.\w+$/)
+
+      let extension = file.originalname
+        .match(/\.\w+$/)
+        .substring(0, 255) // Truncate if longer than 255
       file.pathWithExtension = file.path + extension[0]
+
       fs.rename(file.path, file.pathWithExtension, () => {
+
         const hash = md5File.sync(file.pathWithExtension)
-        let name = file.pathWithExtension.replace(/uploads\//, '')
+        const filename = file.filename.substring(0, 255) // Truncate if longer than 255
+
         // Add entry in DB
-        addFileToDB(file.originalname, name, hash, file.size, file.mimetype)
+        addFileToDB(file.originalname, filename, extension, hash, file.size, file.mimetype)
           .then(() => res.json({
             path: file.pathWithExtension,
             success: true
@@ -71,7 +81,9 @@ router.route('/')
           .catch((err) => {
             res.status(500).json({ error: err })
           })
+
       })
+
     }
   )
 
