@@ -100,14 +100,14 @@ export default class FileUploader extends React.Component {
       case 'success':
         uploader = (
           <div>
-            Success
+            Ваш файл загружен!
           </div>
         )
         break
       case 'error':
         uploader = (
           <div>
-            Error
+            Извините, произошла ошибка...
           </div>
         )
         break
