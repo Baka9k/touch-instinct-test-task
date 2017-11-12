@@ -8,5 +8,9 @@ module.exports = {
     "react/jsx-uses-vars": "error",
     "no-trailing-spaces": ["error", { "skipBlankLines": true }],
     "padded-blocks": ["error", { "classes": "always" }]
+  },
+  "env": {
+    "browser": true,
+    "node": true
   }
 };

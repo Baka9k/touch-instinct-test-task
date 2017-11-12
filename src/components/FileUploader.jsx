@@ -37,7 +37,7 @@ export default class FileUploader extends React.Component {
   }
 
   sendFileToServer () {
-    const file = this.state.file;
+    const file = this.state.file
     if (!file) {
       console.log('Error in sendFileToServer(): no file selected')
       console.log('Upload aborted')
