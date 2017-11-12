@@ -55,11 +55,15 @@ router.route('/')
 
         // Add entry in DB
         files.addFileToDB(file.originalname, filename, extension, hash, file.size, file.mimetype)
-          .then(() => res.json({
-            path: file.pathWithExtension,
-            success: true
-          }))
+          .then(() => {
+            res.json({
+              path: file.pathWithExtension,
+              success: true
+            })
+            console.log(chalk.blue('File received:', filename))
+          })
           .catch((err) => {
+            console.log(chalk.red('Error while adding file to db:', err))
             res.status(500).json({ error: err })
           })
 
