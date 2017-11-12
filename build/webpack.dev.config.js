@@ -1,8 +1,8 @@
-const merge = require('webpack-merge');
-const common = require('./webpack.common.config.js');
-const path = require('path');
+const merge = require('webpack-merge')
+const common = require('./webpack.common.config.js')
+const path = require('path')
 
-const buildDirectory = path.resolve(__dirname, '../dist');
+const buildDirectory = path.resolve(__dirname, '../dist')
 
 module.exports = merge(common, {
   devtool: 'inline-source-map',
@@ -11,4 +11,4 @@ module.exports = merge(common, {
     contentBase: buildDirectory,
     port: 8080
   }
-});
+})
