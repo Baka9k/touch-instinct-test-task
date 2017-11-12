@@ -40,9 +40,9 @@ router.route('/')
         return
       }
 
-      let extension = file.originalname.match(/\.\w+$/)[0]
-      if (extension) {
-        extension = extension.substring(1, 255) // Remove dot and truncate if longer than 255
+      let extension = file.originalname.match(/\.\w+$/)
+      if (extension && extension[0]) {
+        extension = extension[0].substring(1, 255) // Remove dot and truncate if longer than 255
       } else {
         extension = ''
       }
