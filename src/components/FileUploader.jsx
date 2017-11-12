@@ -72,10 +72,10 @@ export default class FileUploader extends React.Component {
           <div>
             <form>
               {!this.state.file &&
-                <label for="fileInput">Выбрать файл</label>
+                <label htmlFor="fileInput">Выбрать файл</label>
               }
               {this.state.file &&
-                <label for="fileInput" className='selected'>Файл выбран!</label>
+                <label htmlFor="fileInput" className='selected'>Файл выбран!</label>
               }
               <input type="file" id="fileInput" onChange={(e) => this.handleChange(e)} />
             </form>
