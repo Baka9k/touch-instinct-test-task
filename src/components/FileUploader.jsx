@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
 export default class FileUploader extends React.Component {
-  render() {
+  render () {
     return (
       <h4>Uploader</h4>
-    );
+    )
   }
 }
