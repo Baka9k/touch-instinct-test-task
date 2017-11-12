@@ -39,12 +39,24 @@ export default class FileUploader extends React.Component {
     })
   }
 
+  resetFileInformation () {
+    this.setState({
+      file: null,
+      filetype: null
+    })
+  }
+
   handleSubmitClick (e) {
     this.setUploaderState('uploading')
     this.sendFileToServer()
       .then(() => this.setUploaderState('success'))
       .catch(() => this.setUploaderState('error'))
-      .then(() => { setTimeout(() => { this.setUploaderState('pending') }, 3000) })
+      .then(() => {
+        setTimeout(() => {
+          this.resetFileInformation()
+          this.setUploaderState('pending')
+        }, 3000)
+      })
   }
 
   render () {
