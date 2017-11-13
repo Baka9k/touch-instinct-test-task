@@ -60,7 +60,7 @@ router.route('/')
               path: file.pathWithExtension,
               success: true
             })
-            console.log(chalk.blue('File received:', filename))
+            console.log(chalk.blue('File received:', file.originalname))
           })
           .catch((err) => {
             console.log(chalk.red('Error while adding file to db:', err))
