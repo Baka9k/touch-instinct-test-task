@@ -10,11 +10,20 @@ files.addFileToDB = function (originalname, name, extension, hash, size, mimetyp
 
   return new Promise((resolve, reject) => {
 
+    if (!pool || !pool.connect) {
+      reject(new Error('Error: pool is not created'))
+      return
+    }
     const dateUploaded = datetime.getCurrentDateString()
 
     pool.connect((err, client, release) => {
       if (err) {
         reject(err)
+        return
+      }
+      if (!client) {
+        reject(new Error('Error: pool did not returned client'))
+        return
       }
       client.query(
         `INSERT INTO files
