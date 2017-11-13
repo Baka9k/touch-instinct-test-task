@@ -45,5 +45,6 @@ yarn build
 ##### Start server
 Server serves built files from /dist, so you need to run `yarn build` first.
 ```bash
-DATABASE_URL='postgres://postgres:password@localhost:5432/files' node index.js
+PGUSER=postgres PGHOST=localhost PGPASSWORD=pgpass PGDATABASE=files PGPORT=5432 node index.js
 ```
+<br />
