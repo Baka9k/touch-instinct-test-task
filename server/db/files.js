@@ -1,7 +1,8 @@
 const pg = require('pg')
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:pgpass@localhost:5432/files'
-const client = new pg.Client(connectionString)
 const datetime = require('../utils/datetime')
+// pools will use environment variables
+// for connection information
+const pool = new pg.Pool()
 
 const files = {}
 
@@ -9,40 +10,46 @@ files.addFileToDB = function (originalname, name, extension, hash, size, mimetyp
 
   return new Promise((resolve, reject) => {
 
-    client.connect()
-      .then(() => {
-        const dateUploaded = datetime.getCurrentDateString()
-        return (
-          client.query(
-            `INSERT INTO files
-              (
-                dateUploaded,
-                originalname,
-                name,
-                extension,
-                hash,
-                size,
-                mimetype
-              ) values(
-                $1, $2, $3, $4, $5, $6, $7
-              )`,
-            [
-              dateUploaded,
-              originalname,
-              name,
-              extension,
-              hash,
-              size,
-              mimetype
-            ]
-          )
-        )
-      })
-      .then(() => { return client.end() })
-      .then(() => resolve())
-      .catch(err => reject(err))
-  })
+    const dateUploaded = datetime.getCurrentDateString()
 
+    pool.connect((err, client, release) => {
+      if (err) {
+        reject(err)
+      }
+      client.query(
+        `INSERT INTO files
+          (
+            dateUploaded,
+            originalname,
+            name,
+            extension,
+            hash,
+            size,
+            mimetype
+          ) values(
+            $1, $2, $3, $4, $5, $6, $7
+          )`,
+        [
+          dateUploaded,
+          originalname,
+          name,
+          extension,
+          hash,
+          size,
+          mimetype
+        ],
+        (err, result) => {
+          release()
+          if (err) {
+            reject(err)
+          } else {
+            resolve(result)
+          }
+        }
+      )
+    })
+
+  })
 }
 
 module.exports = files
